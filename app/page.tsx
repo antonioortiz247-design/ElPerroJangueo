@@ -7,13 +7,16 @@ import type { Product } from "@/lib/types";
 
 export default async function HomePage() {
   const supabase = await createSupabaseServerClient();
-  const { data: featured } = await supabase
-    .from("products")
-    .select("*")
-    .eq("active", true)
-    .limit(8);
 
-  const featuredProducts = (featured ?? []) as Product[];
+  let featuredProducts: Product[] = [];
+  if (supabase) {
+    const { data } = await supabase
+      .from("products")
+      .select("*")
+      .eq("active", true)
+      .limit(8);
+    featuredProducts = (data ?? []) as Product[];
+  }
 
   return (
     <Container>

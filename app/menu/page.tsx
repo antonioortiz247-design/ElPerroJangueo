@@ -8,17 +8,25 @@ const categories: Category[] = ["Mojitos", "Azulitos", "Especiales", "Promos"];
 
 export default async function MenuPage() {
   const supabase = await createSupabaseServerClient();
-  const { data } = await supabase
-    .from("products")
-    .select("*")
-    .eq("active", true)
-    .order("category");
 
-  const products = (data ?? []) as Product[];
+  let products: Product[] = [];
+  if (supabase) {
+    const { data } = await supabase
+      .from("products")
+      .select("*")
+      .eq("active", true)
+      .order("category");
+    products = (data ?? []) as Product[];
+  }
 
   return (
     <Container>
       <h1 className="mb-4 text-2xl font-bold">Menú</h1>
+      {!supabase && (
+        <p className="mb-4 rounded-lg border border-yellow-400/40 bg-yellow-400/10 p-3 text-sm text-yellow-200">
+          Configura NEXT_PUBLIC_SUPABASE_URL y NEXT_PUBLIC_SUPABASE_ANON_KEY para cargar el menú.
+        </p>
+      )}
       {categories.map((category) => (
         <section key={category} className="mb-6">
           <h2 className="mb-3 text-lg text-neonBlue">{category}</h2>

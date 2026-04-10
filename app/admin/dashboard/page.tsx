@@ -2,6 +2,15 @@ import { createSupabaseServerClient } from "@/lib/supabase-server";
 
 export default async function AdminDashboardPage() {
   const supabase = await createSupabaseServerClient();
+
+  if (!supabase) {
+    return (
+      <div className="neon-card p-4 text-sm text-yellow-200">
+        Falta configuración de Supabase. Define las variables de entorno para ver métricas.
+      </div>
+    );
+  }
+
   const [{ count: orderCount }, { data: revenueRows }, { count: activeProducts }] = await Promise.all([
     supabase.from("orders").select("id", { count: "exact", head: true }),
     supabase.from("orders").select("total"),
