@@ -3,6 +3,7 @@ import { AnnouncementBanner } from "@/components/announcement-banner";
 import { FeaturedCarousel } from "@/components/featured-carousel";
 import { Container } from "@/components/ui/container";
 import { createSupabaseServerClient } from "@/lib/supabase-server";
+import type { Product } from "@/lib/types";
 
 export default async function HomePage() {
   const supabase = await createSupabaseServerClient();
@@ -11,6 +12,8 @@ export default async function HomePage() {
     .select("*")
     .eq("active", true)
     .limit(8);
+
+  const featuredProducts = (featured ?? []) as Product[];
 
   return (
     <Container>
@@ -26,7 +29,7 @@ export default async function HomePage() {
 
       <section>
         <h2 className="mb-3 text-lg font-bold">Destacados</h2>
-        <FeaturedCarousel items={(featured ?? []) as any} />
+        <FeaturedCarousel items={featuredProducts} />
       </section>
     </Container>
   );
