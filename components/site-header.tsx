@@ -11,7 +11,7 @@ export function SiteHeader() {
   return (
     <header className="sticky top-0 z-40 border-b border-white/10 bg-bg/80 backdrop-blur-xl">
       <div className="mx-auto flex w-full max-w-6xl items-center justify-between px-4 py-3">
-        <Link href="/" className="text-sm font-black uppercase tracking-[0.22em] text-neonBlue">
+        <Link href="/" className="grime-font text-base font-black uppercase tracking-[0.22em] text-neonBlue">
           El Perro Jangueo
         </Link>
         <nav className="flex gap-2 text-xs sm:text-sm">
