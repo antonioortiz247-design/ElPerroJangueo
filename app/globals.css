@@ -1,0 +1,60 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@font-face {
+  font-family: "Grime Slime";
+  src:
+    url("https://static.wfonts.com/download/data/2026/03/04/grime-slime/GrimeSlime-Regular.woff") format("woff"),
+    url("https://static.wfonts.com/download/data/2026/03/04/grime-slime/GrimeSlime-Regular.ttf") format("truetype"),
+    local("Grime Slime"),
+    local("GrimeSlime");
+  font-display: swap;
+}
+
+:root {
+  color-scheme: dark;
+}
+
+* {
+  -webkit-tap-highlight-color: transparent;
+}
+
+body {
+  @apply min-h-screen bg-bg text-white;
+  background-image:
+    radial-gradient(circle at 20% 10%, rgba(0, 209, 255, 0.12), transparent 32%),
+    radial-gradient(circle at 80% 0%, rgba(255, 28, 247, 0.13), transparent 28%),
+    radial-gradient(circle at 50% 90%, rgba(124, 58, 237, 0.16), transparent 32%);
+}
+
+.neon-card {
+  @apply rounded-2xl border border-white/10 bg-white/5 backdrop-blur;
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.08), 0 0 0 1px rgba(255, 255, 255, 0.02);
+}
+
+.grime-font {
+  font-family: "Grime Slime", "Impact", "Haettenschweiler", "Arial Black", sans-serif;
+  letter-spacing: 0.08em;
+}
+
+.neon-title {
+  @apply grime-font font-black uppercase tracking-[0.16em];
+  text-shadow: 0 0 16px rgba(0, 209, 255, 0.35);
+}
+
+.neon-pill {
+  @apply rounded-full border border-neonBlue/40 bg-neonBlue/10 px-3 py-1 text-xs text-neonBlue;
+}
+
+.neon-btn {
+  @apply rounded-xl px-4 py-2 font-semibold transition active:scale-[0.98];
+}
+
+.neon-btn-primary {
+  @apply neon-btn bg-neonBlue text-black shadow-[0_0_24px_rgba(0,209,255,0.35)];
+}
+
+.neon-btn-outline {
+  @apply neon-btn border border-neonPink/70 text-neonPink;
+}
