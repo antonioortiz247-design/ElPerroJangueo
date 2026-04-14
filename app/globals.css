@@ -4,7 +4,11 @@
 
 @font-face {
   font-family: "Grime Slime";
-  src: local("Grime Slime"), local("GrimeSlime");
+  src:
+    url("https://static.wfonts.com/download/data/2026/03/04/grime-slime/GrimeSlime-Regular.woff") format("woff"),
+    url("https://static.wfonts.com/download/data/2026/03/04/grime-slime/GrimeSlime-Regular.ttf") format("truetype"),
+    local("Grime Slime"),
+    local("GrimeSlime");
   font-display: swap;
 }
 
