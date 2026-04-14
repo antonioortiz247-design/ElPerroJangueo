@@ -31,4 +31,5 @@ export interface Announcement {
   id: string;
   text: string;
   active: boolean;
+  image_url?: string;
 }

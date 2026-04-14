@@ -2,8 +2,8 @@
 
 import { useEffect, useState } from "react";
 import Image from "next/image";
-import { createSupabaseBrowserClient } from "@/lib/supabase-client";
 import { Container } from "@/components/ui/container";
+import { bootstrapLocalDb, localDb } from "@/lib/local-storage-db";
 
 interface GalleryItem { id: string; image_url: string }
 
@@ -12,12 +12,8 @@ export default function GalleryPage() {
   const [selected, setSelected] = useState<string | null>(null);
 
   useEffect(() => {
-    const load = async () => {
-      const supabase = createSupabaseBrowserClient();
-      const { data } = await supabase.from("gallery").select("id,image_url");
-      setImages((data ?? []) as GalleryItem[]);
-    };
-    void load();
+    bootstrapLocalDb();
+    setImages(localDb.getGallery());
   }, []);
 
   return (

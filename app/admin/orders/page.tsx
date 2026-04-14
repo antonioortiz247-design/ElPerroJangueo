@@ -1,36 +1,34 @@
 "use client";
 
 import { useEffect, useState } from "react";
-import { createSupabaseBrowserClient } from "@/lib/supabase-client";
 import type { Order } from "@/lib/types";
+import { bootstrapLocalDb, localDb } from "@/lib/local-storage-db";
 
 export default function AdminOrdersPage() {
   const [orders, setOrders] = useState<Order[]>([]);
   const [selected, setSelected] = useState<Order | null>(null);
 
-  const load = async () => {
-    const supabase = createSupabaseBrowserClient();
-    const { data } = await supabase.from("orders").select("*").order("created_at", { ascending: false });
-    setOrders((data ?? []) as Order[]);
+  const load = () => setOrders(localDb.getOrders());
+
+  useEffect(() => {
+    bootstrapLocalDb();
+    load();
+  }, []);
+
+  const updateStatus = (id: string, status: Order["status"]) => {
+    const updated = localDb.getOrders().map((order) => (order.id === id ? { ...order, status } : order));
+    localDb.saveOrders(updated);
+    load();
   };
 
-  useEffect(() => { void load(); }, []);
-
-  const updateStatus = async (id: string, status: Order["status"]) => {
-    const supabase = createSupabaseBrowserClient();
-    await supabase.from("orders").update({ status }).eq("id", id);
-    await load();
-  };
-
-  const remove = async (id: string) => {
-    const supabase = createSupabaseBrowserClient();
-    await supabase.from("orders").delete().eq("id", id);
-    await load();
+  const remove = (id: string) => {
+    localDb.saveOrders(localDb.getOrders().filter((order) => order.id !== id));
+    load();
   };
 
   return (
     <div>
-      <h1 className="mb-4 text-xl font-bold">Pedidos</h1>
+      <h1 className="mb-4 text-xl font-bold">Pedidos (LocalStorage)</h1>
       <div className="space-y-2">
         {orders.map((order) => (
           <div key={order.id} className="neon-card p-3">

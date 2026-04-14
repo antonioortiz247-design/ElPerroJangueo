@@ -1,22 +1,21 @@
+"use client";
+
 import Link from "next/link";
+import { useEffect, useState } from "react";
 import { AnnouncementBanner } from "@/components/announcement-banner";
 import { FeaturedCarousel } from "@/components/featured-carousel";
 import { Container } from "@/components/ui/container";
-import { createSupabaseServerClient } from "@/lib/supabase-server";
+import { bootstrapLocalDb, localDb } from "@/lib/local-storage-db";
 import type { Product } from "@/lib/types";
 
-export default async function HomePage() {
-  const supabase = await createSupabaseServerClient();
+export default function HomePage() {
+  const [featuredProducts, setFeaturedProducts] = useState<Product[]>([]);
 
-  let featuredProducts: Product[] = [];
-  if (supabase) {
-    const { data } = await supabase
-      .from("products")
-      .select("*")
-      .eq("active", true)
-      .limit(8);
-    featuredProducts = (data ?? []) as Product[];
-  }
+  useEffect(() => {
+    bootstrapLocalDb();
+    const products = localDb.getProducts().filter((item) => item.active);
+    setFeaturedProducts(products.slice(0, 8));
+  }, []);
 
   return (
     <Container>

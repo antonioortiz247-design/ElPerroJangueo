@@ -1,34 +1,26 @@
+"use client";
+
+import { useEffect, useState } from "react";
 import { Container } from "@/components/ui/container";
-import { createSupabaseServerClient } from "@/lib/supabase-server";
 import { ProductCard } from "@/components/product-card";
 import { SendOrderButton } from "@/components/send-order-button";
+import { bootstrapLocalDb, localDb } from "@/lib/local-storage-db";
 import type { Category, Product } from "@/lib/types";
 
 const categories: Category[] = ["Mojitos", "Azulitos", "Especiales", "Promos"];
 
-export default async function MenuPage() {
-  const supabase = await createSupabaseServerClient();
+export default function MenuPage() {
+  const [products, setProducts] = useState<Product[]>([]);
 
-  let products: Product[] = [];
-  if (supabase) {
-    const { data } = await supabase
-      .from("products")
-      .select("*")
-      .eq("active", true)
-      .order("category");
-    products = (data ?? []) as Product[];
-  }
+  useEffect(() => {
+    bootstrapLocalDb();
+    setProducts(localDb.getProducts().filter((item) => item.active));
+  }, []);
 
   return (
     <Container>
       <h1 className="neon-title mb-2 text-2xl sm:text-3xl">Menú</h1>
       <p className="mb-5 text-sm text-white/70">Escoge tus favoritos y envía el pedido por WhatsApp.</p>
-
-      {!supabase && (
-        <p className="mb-4 rounded-lg border border-yellow-400/40 bg-yellow-400/10 p-3 text-sm text-yellow-200">
-          Configura NEXT_PUBLIC_SUPABASE_URL y NEXT_PUBLIC_SUPABASE_ANON_KEY para cargar el menú.
-        </p>
-      )}
 
       {categories.map((category) => {
         const categoryItems = products.filter((product) => product.category === category);

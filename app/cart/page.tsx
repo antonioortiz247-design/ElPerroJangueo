@@ -3,16 +3,24 @@
 import { Container } from "@/components/ui/container";
 import { useCartStore } from "@/store/cart-store";
 import { buildWhatsAppUrl } from "@/lib/whatsapp";
-import { createSupabaseBrowserClient } from "@/lib/supabase-client";
+import { bootstrapLocalDb, localDb } from "@/lib/local-storage-db";
 
 export default function CartPage() {
   const { items, removeItem, clear } = useCartStore();
   const total = items.reduce((acc, item) => acc + item.qty * item.price, 0);
   const phone = process.env.NEXT_PUBLIC_WHATSAPP_PHONE || "18095551234";
 
-  const saveOrder = async () => {
-    const supabase = createSupabaseBrowserClient();
-    await supabase.from("orders").insert({ items, total, status: "new" });
+  const saveOrder = () => {
+    bootstrapLocalDb();
+    const orders = localDb.getOrders();
+    orders.unshift({
+      id: crypto.randomUUID(),
+      items,
+      total,
+      status: "new",
+      created_at: new Date().toISOString()
+    });
+    localDb.saveOrders(orders);
     clear();
   };
 
