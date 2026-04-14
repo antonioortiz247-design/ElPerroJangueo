@@ -3,6 +3,7 @@ import "./globals.css";
 import { CartProvider } from "@/store/cart-provider";
 import { WhatsAppFloatingButton } from "@/components/whatsapp-floating-button";
 import { PwaRegister } from "@/components/pwa-register";
+import { SiteHeader } from "@/components/site-header";
 
 export const metadata: Metadata = {
   title: "El Perro Jangueo",
@@ -16,6 +17,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
       <body>
         <CartProvider>
           <PwaRegister />
+          <SiteHeader />
           {children}
           <WhatsAppFloatingButton />
         </CartProvider>

@@ -21,17 +21,37 @@ export default async function HomePage() {
   return (
     <Container>
       <AnnouncementBanner />
-      <section className="mb-7 rounded-2xl bg-gradient-to-br from-neonPurple/30 via-neonPink/15 to-transparent p-5">
-        <h1 className="mb-2 text-4xl font-black">El Perro Jangueo</h1>
-        <p className="mb-4 text-white/80">Mojitos, azulitos y cocteles urbanos al instante.</p>
-        <div className="flex gap-3">
-          <Link href="/menu" className="rounded-xl bg-neonBlue px-4 py-2 font-semibold text-black">Ver menú</Link>
-          <a href={`https://wa.me/${process.env.NEXT_PUBLIC_WHATSAPP_PHONE || "18095551234"}`} className="rounded-xl border border-neonPink px-4 py-2">Pedir por WhatsApp</a>
+
+      <section className="neon-card relative mb-7 overflow-hidden p-6 sm:p-8">
+        <div className="absolute -right-20 -top-20 h-52 w-52 rounded-full bg-neonPink/20 blur-3xl" />
+        <div className="absolute -left-20 bottom-0 h-52 w-52 rounded-full bg-neonBlue/20 blur-3xl" />
+
+        <div className="relative">
+          <div className="mb-4 flex flex-wrap gap-2">
+            <span className="neon-pill">Los mejores mojitos</span>
+            <span className="neon-pill border-neonPink/40 bg-neonPink/10 text-neonPink">Entrega rápida</span>
+          </div>
+
+          <h1 className="neon-title mb-3 text-3xl leading-tight sm:text-5xl">El Perro Jangueo</h1>
+          <p className="mb-5 max-w-2xl text-sm text-white/80 sm:text-base">
+            Tu esquina de cocteles urbanos: mojitos, azulitos y especiales listos para janguear.
+            Pide en segundos por WhatsApp.
+          </p>
+
+          <div className="flex flex-wrap gap-3">
+            <Link href="/menu" className="neon-btn-primary">Ver menú</Link>
+            <a href={`https://wa.me/${process.env.NEXT_PUBLIC_WHATSAPP_PHONE || "18095551234"}`} className="neon-btn-outline">
+              Pedir por WhatsApp
+            </a>
+          </div>
         </div>
       </section>
 
       <section>
-        <h2 className="mb-3 text-lg font-bold">Destacados</h2>
+        <div className="mb-3 flex items-center justify-between">
+          <h2 className="text-lg font-bold uppercase tracking-wider text-neonBlue">Destacados</h2>
+          <span className="text-xs text-white/60">Top de la noche</span>
+        </div>
         <FeaturedCarousel items={featuredProducts} />
       </section>
     </Container>
